@@ -14,7 +14,8 @@ class ElasticsearchCookbook::PluginProvider < Chef::Provider::LWRPBase
 
     # since install can take a URL argument instead
     url_or_name = new_resource.url || new_resource.plugin_name
-    manage_plugin("install #{url_or_name}")
+    opts = '--batch' if node['elasticsearch']['version'].start_with? '6'
+    manage_plugin("install #{opts} #{url_or_name}")
   end # action
 
   def action_remove
